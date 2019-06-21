@@ -172,6 +172,7 @@ def button_D(button, pressed):
     print('')
     buttonshim.set_pixel(0, 0, 0)
 
+# Button E - Send photo through gmail
 @buttonshim.on_press(buttonshim.BUTTON_E)
 def button_e(button, pressed):
     buttonshim.set_pixel(255, 0, 0)
