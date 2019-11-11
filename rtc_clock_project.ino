@@ -1,6 +1,6 @@
 /* Author - Julie Stainbrook - port of adafruit's clock script to work with a seriously cheap partlist, lol
- * this peice of shit code works with one of those clone nanos and one of those cheap as hell chinese 128x128 screens
- * and a real time clock module.  Make sure you do the thing and install those cheap chinese nano drivers, or your computer
+ * this code works with one of those clone nanos and one of those chinese 128x128 screens
+ * and a real time clock module.  Make sure you do the thing and install those chinese nano drivers, or your computer
  * won't talk to it -- here's a guide.  
  * 
  * https://sparks.gogo.co.nz/ch340.html
