@@ -1,0 +1,53 @@
+# Quick little micropython for the m5stack fire - Tree illustration and flashing neopixels that update to the cheerlights api!
+# Set your SSID and Password here for cheerlights
+ssid = 'YOURSSID'
+passwd = 'YOURPASS'
+
+from m5stack import *
+from m5ui import *
+from uiflow import *
+import os, uos, wave
+import machine, urequests, network, neopixel
+
+setScreenColor(0x111111)
+
+station = network.WLAN(network.STA_IF)
+station.active(True)
+station.connect(ssid,passwd)
+np = neopixel.NeoPixel(machine.Pin(16), 30)
+
+# Draw the tree
+lcd.font(lcd.FONT_Minya)
+lcd.print("Merry Christmas!",55,0,lcd.RED)
+lcd.fillTriangle(110,80,210,80,160,20, lcd.GREEN)
+lcd.fillTriangle(90,140,230,140,160,60, lcd.GREEN)
+lcd.fillTriangle(70,180,250,180,160,120, lcd.GREEN)
+lcd.fillRect(142,181,30,60,lcd.MAROON)
+lcd.fillCircle(110,142,10,lcd.RED)
+lcd.fillCircle(155,165,10,lcd.WHITE)
+lcd.fillCircle(200,114,10,lcd.YELLOW)
+lcd.fillCircle(170,124,10,lcd.CYAN)
+lcd.fillCircle(160,50,10,lcd.PINK)
+lcd.fillCircle(125,80,10,lcd.BLUE)
+lcd.fillCircle(85,170,10,lcd.PURPLE)
+lcd.fillCircle(225,175,10,lcd.ORANGE)
+
+# Run the loop to connect to cheerlights and update the leds
+while True:
+    r = urequests.get('http://api.thingspeak.com/channels/1417/field/2/last.json')
+    json = r.json()
+ 
+    if 'field2' not in json:
+        print('Error {status}: {error}'.format(status=json['status'], error=json['error']))
+        time.sleep(5)
+        continue
+
+    R, G, B = hex_to_rgb(json['field2'])
+    for i in range(0, 256, 10):
+      rgb.setColorFrom(1 , 10 ,(R << 16) | (G << 8) | B)
+      rgb.setBrightness(i)
+    for i in range(255, -1, -10):
+      rgb.setColorFrom(1 , 10 ,(R << 16) | (G << 8) | B)
+      rgb.setBrightness(i)
+    time.sleep(2)
+   
